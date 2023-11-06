@@ -144,12 +144,21 @@ _local_commit() {
 }
 
 _tag_commit() {
+    echo "INPUT_TAGGING_OPTIONS: ${INPUT_TAGGING_OPTIONS}";
+    echo "::debug::Apply tagging options ${INPUT_TAGGING_OPTIONS}";
+
+    INPUT_TAGGING_OPTIONS_ARRAY=( $INPUT_TAGGING_OPTIONS );
+
     echo "INPUT_TAGGING_MESSAGE: ${INPUT_TAGGING_MESSAGE}"
 
     if [ -n "$INPUT_TAGGING_MESSAGE" ]
     then
         _log "debug" "Create tag $INPUT_TAGGING_MESSAGE";
-        git -c user.name="$INPUT_COMMIT_USER_NAME" -c user.email="$INPUT_COMMIT_USER_EMAIL" tag -a "$INPUT_TAGGING_MESSAGE" -m "$INPUT_TAGGING_MESSAGE";
+        # git -c user.name="$INPUT_COMMIT_USER_NAME" -c user.email="$INPUT_COMMIT_USER_EMAIL" tag -a "$INPUT_TAGGING_MESSAGE" -m "$INPUT_TAGGING_MESSAGE";
+
+        git -c user.name="$INPUT_COMMIT_USER_NAME" -c user.email="$INPUT_COMMIT_USER_EMAIL" \
+            tag -a "$INPUT_TAGGING_MESSAGE" -m "$INPUT_TAGGING_MESSAGE" \
+            ${INPUT_TAGGING_OPTIONS:+"${INPUT_TAGGING_OPTIONS_ARRAY[@]}"};
     else
         echo "No tagging message supplied. No tag will be added.";
     fi

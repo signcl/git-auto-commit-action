@@ -16,6 +16,10 @@ inputs:
     description: Commit options (eg. --no-verify)
     required: false
     default: ''
+  tagging_options:
+    description: Tagging options (eg. -s)
+    required: false
+    default: ''
   add_options:
     description: Add options (eg. -u)
     required: false
